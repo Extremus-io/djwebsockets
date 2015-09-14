@@ -8,10 +8,7 @@ The idea is to create a separate websocket server when an instance of django wsg
 > requires python 3.4 to work
 
 ###Installation:
-- clone the repo ```git clone https://github.com/Extremus-io/djwebsockets.git```
-- open terminal and ```cd``` to the repo directory.
-- execute ```pip install -r requirements.txt```
-- copy the ```djwebsockets``` directory in the repo into your django project directory.
+- run `pip install djwebsockets`.
 - add ```djwebsockets``` to ```settings.INSTALLED_APPS``` 
 - add ```WEBSOCKET_HOST``` and ```WEBSOCKET_PORT``` to settings.py
 - in wsgi.py file, replace line
