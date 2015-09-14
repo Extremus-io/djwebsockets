@@ -8,13 +8,13 @@ The idea is to create a separate websocket server when an instance of django wsg
 > requires python 3.4 to work
 
 ###Installation:
-1. clone the repo ```git clone https://github.com/Extremus-io/djwebsockets.git```
-2. open terminal and ```cd``` to the repo directory.
-3. execute ```pip install -r requirements.txt```
-1. copy the ```djwebsockets``` directory in the repo into your django project directory.
-2. add ```djwebsockets``` to ```settings.INSTALLED_APPS``` 
-3. add ```WEBSOCKET_HOST``` and ```WEBSOCKET_PORT`` to settings.py
-3. in wsgi.py file, replace line
+- clone the repo ```git clone https://github.com/Extremus-io/djwebsockets.git```
+- open terminal and ```cd``` to the repo directory.
+- execute ```pip install -r requirements.txt```
+- copy the ```djwebsockets``` directory in the repo into your django project directory.
+- add ```djwebsockets``` to ```settings.INSTALLED_APPS``` 
+- add ```WEBSOCKET_HOST``` and ```WEBSOCKET_PORT`` to settings.py
+- in wsgi.py file, replace line
 ```python
     from django.core.wsgi import get_wsgi_application 
 ```
@@ -22,7 +22,7 @@ with
 ```python
     from djwebsockets.wsgi import get_wsgi_application
 ```
-4. **optional**: use following for session variables and user (```websocket.user``` and ```websocket.session```)
+- **optional**: use following for session variables and user (```websocket.user``` and ```websocket.session```)
 ```python
     WEBSOCKET_MIDDLEWARE = [
         'django.contrib.sessions.middleware.SessionMiddleware',
