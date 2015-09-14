@@ -14,9 +14,12 @@ The idea is to create a separate websocket server when an instance of django wsg
 - copy the ```djwebsockets``` directory in the repo into your django project directory.
 - add ```djwebsockets``` to ```settings.INSTALLED_APPS``` 
 - add ```WEBSOCKET_HOST``` and ```WEBSOCKET_PORT``` to settings.py
-- in wsgi.py file, replace line```python
+- in wsgi.py file, replace line
+```python
     from django.core.wsgi import get_wsgi_application 
-```with```python
+```
+   with
+```python
     from djwebsockets.wsgi import get_wsgi_application
 ```
 - **optional**: use following for session variables and user (```websocket.user``` and ```websocket.session```)
