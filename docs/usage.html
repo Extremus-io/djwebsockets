@@ -1,0 +1,23 @@
+<h3 id="usage-">Usage:</h3>
+<ul>
+<li>in any app&#39;s <code>models.py</code> add<pre><code class="lang-python">  from djwebsockets.decorator import Namespace
+</code></pre>
+</li>
+<li>create a websocket handler with a namespace <pre><code class="lang-python">  @Namespace(&quot;/example/&quot;):
+  class ExamplerHandler:
+     @classmethod:
+     on_connect(cls, websocket, path):
+         ...
+     @classmethod:
+     on_message(cls, websocket, message):
+         ...
+     @classmethod:
+     on_close(cls, websocket, message):
+         ...
+</code></pre>
+</li>
+</ul>
+<h5 id="ps-">PS:</h5>
+<blockquote>
+<p>There are many more features already present and being made. i&#39;m busy at the moment but documentation will be made soon.</p>
+</blockquote>
