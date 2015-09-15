@@ -1,0 +1,67 @@
+<dom-module id="body-element">
+  <script src="highlight.pack.js"></script>
+  <style>
+    :host{
+      @apply(--layout-vertical);
+      padding:50px;
+      box-sizing:border-box;
+      font-family: var(--primary-font-family);
+    }
+  </style>
+  <link href="github.css" rel="stylesheet"/>
+  <link href="styles/github-gist.css" rel="stylesheet"/>
+
+  <template>
+    <iron-ajax
+      url="{{fulltarget(target)}}"
+      handle-as="text"
+      on-response="dataResponse"
+      id = "ajax">
+    </iron-ajax>
+    <section id="mainContainer" class="markdown-body">Loading...</section>
+  </template>
+  <script>
+    /* jshint ignore:start */
+
+    (function(){
+    Polymer({
+      is : 'body-element',
+      properties:{
+        target: {
+          type: String,
+          value: 'introduction',
+          notify: true
+        }
+      },
+      fulltarget: function(target){
+        return '/docs/'+target+'.html';
+      },
+      dataResponse: function(e){
+        this.$.mainContainer.innerHTML= e.detail.response;
+        var elements = this.$.mainContainer.getElementsByTagName('pre');
+        for(var i=0;i<elements.length;i++){
+          hljs.highlightBlock(elements[i]);
+        }
+      },
+      update: function(){
+        var ajax = this.$.ajax;
+        ajax.url=this.fulltarget(this.target);
+        ajax.generateRequest();
+      },
+      refresh:function(e) {
+        this.update();
+      },
+      attached: function() {
+        this.update();
+        this.addEventListener('target-changed',this.refresh);
+        hljs.configure({
+          languages:['python', 'django', 'javascript']
+        });
+      }
+    });
+    })();
+    /* jshint ignore:end */
+
+
+  </script>
+</dom-module>
