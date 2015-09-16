@@ -1,9 +1,8 @@
 <dom-module id="body-element">
-  <script src="highlight.pack.js"></script>
   <style>
     :host{
       @apply(--layout-vertical);
-      padding:50px;
+      padding:30px;
       box-sizing:border-box;
       font-family: var(--primary-font-family);
     }
@@ -20,6 +19,7 @@
     </iron-ajax>
     <section id="mainContainer" class="markdown-body">Loading...</section>
   </template>
+  <script  src="../../scripts/unsupported/highlight.pack.js"></script>
   <script>
     /* jshint ignore:start */
 
@@ -29,12 +29,26 @@
       properties:{
         target: {
           type: String,
-          value: 'introduction',
-          notify: true
+          value: 'index',
+          notify: true,
+          reflectToAttribute: true
+        },
+        prefix: {
+          type: String,
+          value: '',
+          reflectToAttribute: true
+        },
+        postfix: {
+          type: String,
+          value: '',
+          reflectToAttribute: true
         }
       },
       fulltarget: function(target){
-        return 'docs/'+target+'.html';
+        if (target==null){
+          target='index';
+        }
+        return this.prefix+target+this.postfix;
       },
       dataResponse: function(e){
         this.$.mainContainer.innerHTML= e.detail.response;

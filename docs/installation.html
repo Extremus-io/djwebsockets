@@ -1,14 +1,14 @@
 <h3 id="installation-">Installation:</h3>
 <ol>
-<li>run <code>pip install djwebsockets</code>.</li>
-<li>add <code>djwebsockets</code> to <code>settings.INSTALLED_APPS</code> </li>
-<li>add <code>WEBSOCKET_HOST</code> and <code>WEBSOCKET_PORT</code> to settings.py</li>
-<li>in wsgi.py file, replace line<pre><code class="lang-python"> from django.core.wsgi import get_wsgi_application
+<li>Run <code>pip install djwebsockets</code>.</li>
+<li>Add <code>djwebsockets</code> to <code>settings.INSTALLED_APPS</code> </li>
+<li>Add <code>WEBSOCKET_HOST</code> and <code>WEBSOCKET_PORT</code> to settings.py</li>
+<li>In wsgi.py file, replace line<pre><code class="lang-python"> from django.core.wsgi import get_wsgi_application
 </code></pre>
 with<pre><code class="lang-python"> from djwebsockets.wsgi import get_wsgi_application
 </code></pre>
 </li>
-<li><strong>optional</strong>: use following for session variables and user (<code>websocket.user</code> and <code>websocket.session</code>)<pre><code class="lang-python"> WEBSOCKET_MIDDLEWARE = [
+<li><strong>optional</strong>: Use following for session variables and user (<code>websocket.user</code> and <code>websocket.session</code>)<pre><code class="lang-python"> WEBSOCKET_MIDDLEWARE = [
      &#39;django.contrib.sessions.middleware.SessionMiddleware&#39;,
      &#39;django.contrib.auth.middleware.AuthenticationMiddleware&#39;,
  ]
