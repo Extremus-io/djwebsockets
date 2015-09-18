@@ -7,6 +7,7 @@ from django.conf import settings
 from django import http
 import importlib
 from .websocket import WebSocket
+import re
 
 BASE_DIR = os.path.dirname(__file__)
 
@@ -32,8 +33,13 @@ class WebSocketServer:
 
     @staticmethod
     def get_namespace(path):
-        cls = WebSocketServer.NameSpaces.get(path, None)
-        return cls
+        for regex, ns in WebSocketServer.NameSpaces:
+            reg = re.compile(regex)
+            if reg.search(path) is not None:
+                cls = WebSocketServer.NameSpaces.get(regex, None)
+            else:
+                cls = None
+            return cls
 
     @staticmethod
     def get_callbacks(cls):
@@ -77,12 +83,9 @@ class WebSocketServer:
         send_handler = asyncio.Future()
         ws = WebSocket(websocket, close_handler, send_handler)
         self.websockets[id(websocket)] = ws
-        self.mod_for_wsgi(ws, path)
-        self.run_middleware(ws)
-        try:
-            callbacks["on_connect"](ws, path)
-        except KeyError:
-            pass
+        callbacks["on_connect"](ws, path)
+        if ws.closed:
+            return
         while True:
             receivetask = asyncio.async(websocket.recv())
             connection_closed = websocket.connection_closed
@@ -114,30 +117,6 @@ class WebSocketServer:
                 except KeyError:
                     pass
                 break
-        #
-        # yield from websocket.send("Authenticating")
-        # a = open(os.path.join(BASE_DIR, "apikeys.json"), mode='r')
-        # keys = json.loads(a.read())['keys']
-        # auth = False
-        # try:
-        #     if websocket.request_headers["API_KEY"] in keys:
-        #         auth = True
-        #         yield from websocket.send("Authentication Successful")
-        #     else:
-        #         yield from websocket.send("invalid API_KEY. is your device registered?")
-        # except:
-        #     yield from websocket.send("Required Headers are missing")
-        #
-        # #TODO: implement auth module here!
-        #
-        # if auth:
-        #     yield from websocket.send("Successfully connected!")
-        #     print("Successfully connected")
-        #     while True:
-        #         data = yield from websocket.recv()
-        #         print("< {}".format(data))
-        #         output = "Received : \"{}\"".format(data)
-        #         yield from websocket.send(output)
 
     def load_middleware(self):
         if self.middleware_loaded:
@@ -184,6 +163,10 @@ class WebSocketServer:
 
     def stop_server(self):
         self.loop.call_soon_threadsafe(self._stop_server)
+
+    @staticmethod
+    def get_websocket_by_id(id):
+        return WebSocketServer.websockets.get(id)
 
 
 if __name__ == "__main__":
