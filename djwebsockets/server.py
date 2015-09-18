@@ -100,10 +100,12 @@ class WebSocketServer:
             pass
 
     def run_server(self):
+        if self.loop.is_running():
+            print("server already running")
+            return
         print("Starting websocket server at ws://{}".format(self.host+":"+str(self.port)))
         thread = Thread(target=self._run_server, args=(self.loop,))
         thread.start()
-        self.server_running = True
 
     def _stop_server(self):
         self.server.close()
