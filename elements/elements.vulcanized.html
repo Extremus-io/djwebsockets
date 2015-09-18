@@ -14562,6 +14562,9 @@ module.exports = Array.isArray || function (arr) {
     page(window.location.pathname+'/',function() {
       window.location.hash='#!/';
     });
+    page('/',function() {
+      window.location.hash='#!/';
+    });
     page('/:version/:route', function (data) {
       app.version = data.params.version;
       app.route = '/'+app.version+'/'+data.params.route;
