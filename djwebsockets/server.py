@@ -3,9 +3,6 @@ import websockets
 import os
 import inspect
 from threading import Thread
-from django.conf import settings
-from django import http
-import importlib
 from .websocket import WebSocket
 import re
 
@@ -46,30 +43,6 @@ class WebSocketServer:
         callbacks = inspect.getmembers(cls, predicate=inspect.ismethod)
         callbacks = {b[0]: b[1] for b in callbacks}
         return callbacks
-
-    @staticmethod
-    def mod_for_wsgi(socket, path):
-        environ = {
-            'HTTP_COOKIE': socket.socket.request_headers["Cookie"],
-            'PATH_INFO': path,
-            'SERVER_PROTOCOL': '',
-            'HTTP_HOST': socket.socket.request_headers.get("Host"),
-            'HTTP_ACCEPT': '',
-            'SERVER_PORT': '8000',
-            'REMOTE_ADDR': socket.socket.remote_address[0],
-            'REMOTE_HOST': '',
-        }
-        try:
-            socket.COOKIES = http.parse_cookie(environ.get("HTTP_COOKIE"))
-        except AttributeError:
-            pass
-        return environ
-
-    def run_middleware(self, ws):
-        if not self.middleware_loaded:
-            self.load_middleware()
-        for middleware in self._request_middleware:
-            middleware(ws)
 
     @asyncio.coroutine
     def receiver(self, websocket, path):
@@ -117,31 +90,6 @@ class WebSocketServer:
                 except KeyError:
                     pass
                 break
-
-    def load_middleware(self):
-        if self.middleware_loaded:
-            return
-        self.middleware_loaded = True
-        try:
-            str_midddleware = settings.WEBSOCKET_MIDDLEWARE
-        except:
-            return
-
-        for middleware in str_midddleware:
-            try:
-                parts = middleware.split(".")
-                size = len(parts)
-                module = None
-                for part in parts[0:size-1]:
-                    if module is None:
-                        module = part
-                    else:
-                        module+="."+part
-                module = importlib.import_module(module)
-                mware = getattr(module, parts[size-1])
-                self._request_middleware.append(mware().process_request)
-            except:
-                pass
 
     def _run_server(self, loop):
         asyncio.set_event_loop(loop)
