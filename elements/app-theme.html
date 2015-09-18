@@ -92,6 +92,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
      line-height: 60px;
    };
 
+  --paper-dropdown-menu:{
+    display:block;
+    position:relative;
+    width:70px;
+  }
+
   --paper-font-display2: {
      /* @apply(--paper-font-common-base) */
      font-family: 'Comfortaa', cursive;
@@ -262,6 +268,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     --menu-link-color: #111111;
   }
 
+  /* version menu settings*/
+  paper-material.version-menu{
+    background-color:#fff;
+    border-radius:3px;
+    padding-left:10px;
+    padding-right:10px;
+
+  }
+  paper-material.version-menu /deep/ paper-menu-button {
+    padding:0;
+  }
+
   /* General styles */
 
   #drawerToolbar {
@@ -298,15 +316,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     --paper-menu-background-color:rgba(0,0,0,0.06);
   }
 
-
-  paper-material {
-    border-radius: 2px;
-    height: 100%;
-    padding: 16px 0 16px 0;
-    width: calc(98.66% - 16px);
-    margin: 16px auto;
-    background: white;
-  }
 
   paper-menu iron-icon {
     margin-right: 33px;
@@ -381,13 +390,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   /* Small */
   @media (max-width: 600px) {
 
-    paper-material {
-      --menu-container-display: none;
-      width: calc(97.33% - 32px);
-      padding-left: 16px;
-      padding-right: 16px;
-    }
-
     .paper-font-display1 {
       font-size: 12px;
     }
@@ -412,13 +414,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   /* Tablet+ */
   @media (min-width: 601px) {
-
-    paper-material {
-      width: calc(98% - 46px);
-      margin-bottom: 32px;
-      padding-left: 30px;
-      padding-right: 30px;
-    }
 
     #drawer.paper-drawer-panel > [drawer] {
       border-right: 1px solid rgba(0, 0, 0, 0.14);

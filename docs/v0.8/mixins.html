@@ -1,0 +1,58 @@
+<h3 id="mixins-">Mixins:</h3>
+<ul>
+<li>mixins essentially process all or some of the events before actual handler, allowing to tweak the data or block the event call.</li>
+<li>creating mixin is a lot similar to creating the handler itself. <pre><code class="lang-python">  class ExampleMixin(BaseMixin):
+      @classmethod
+      on_connect(cls, websocket, path):
+          ...
+      @classmethod
+       on_message(cls, websocket, message):
+          ...
+      @classmethod
+      on_close(cls, websocket):
+          ...
+</code></pre>
+</li>
+<li>The mixin has to extend <code>djwebsockets.mixins.BaseMixin</code> class</li>
+<li>To use this mixin in your app, extend your handler with this mixin<pre><code class="lang-python">  @Namespace(&quot;/example/&quot;):
+  class ExamplerHandler(ExampleMixin):
+     @classmethod
+     on_connect(cls, websocket, path):
+         ...
+     @classmethod
+     on_message(cls, websocket, message):
+         ...
+     @classmethod
+     on_close(cls, websocket):
+         ...
+</code></pre>
+</li>
+<li>You can also add multiple mixins. They will be executed from right to left.<pre><code class="lang-python">  @Namespace(&quot;/example/&quot;):
+  class ExamplerHandler(ExampleMixin1 ,ExampleMixin2, ExampleMixin3):
+     @classmethod
+     on_connect(cls, websocket, path):
+         ...
+     @classmethod
+     on_message(cls, websocket, message):
+         ...
+     @classmethod
+     on_close(cls, websocket):
+         ...
+</code></pre>
+</li>
+</ul>
+<h3 id="-experimental-django-middleware-support-">**Experimental** django middleware support:</h3>
+<ul>
+<li>Django middleware can be used to authentication, sessions etc. (<code>websocket.user</code> and <code>websocket.session</code>)</li>
+<li>To activate django middleware, extend your websocket handler with <code>djwebsockets.mixins.wsgi.WSGIMixin</code>.</li>
+<li>add middle you want to run just like django.<pre><code class="lang-python">  WEBSOCKET_MIDDLEWARE = [
+      &#39;django.contrib.sessions.middleware.SessionMiddleware&#39;,
+      &#39;django.contrib.auth.middleware.AuthenticationMiddleware&#39;,
+      &#39;django.contrib.auth.middleware.SessionAuthenticationMiddleware&#39;,
+  ]
+</code></pre>
+<blockquote>
+<p>For general Auth, session the above three or their equivalents will be sufficient.</p>
+</blockquote>
+</li>
+</ul>

@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Introduction",
+    "href": "/v0.7/index",
+    "icon": "home"
+  },
+  {
+    "title": "Installation",
+    "href": "/v0.7/installation",
+    "icon": "get-app"
+  },
+  {
+    "title": "Usage",
+    "href": "/v0.7/usage",
+    "icon": "verified-user"
+  }
+]

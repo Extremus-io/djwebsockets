@@ -1,0 +1,12 @@
+<blockquote>
+<p>Busy in Exams right now will post updated version later.</p>
+</blockquote>
+<ul>
+<li><p>start the <code>websocket server</code> when ever you create an instance of wsgi application.</p>
+<pre><code class="lang-python">from djwebsockets.server import WebSocketServer
+
+wserver = WebSocketServer(&quot;localhost&quot;,&quot;8001&quot;)
+wserver.start()
+</code></pre>
+</li>
+</ul>

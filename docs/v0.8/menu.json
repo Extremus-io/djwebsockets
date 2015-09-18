@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Introduction",
+    "href": "/v0.8/index",
+    "icon": "home"
+  },
+  {
+    "title": "Getting Started",
+    "href": "/v0.8/installation",
+    "icon": "check-circle"
+  },
+  {
+    "title": "Mixins",
+    "href": "/v0.8/mixins",
+    "icon": "autorenew"
+  },
+  {
+    "title": "Outside Django",
+    "href": "/v0.8/outside",
+    "icon": "assessment"
+  },
+  {
+    "title": "More Information",
+    "href": "/v0.8/other",
+    "icon": "card-membership"
+  }
+]
