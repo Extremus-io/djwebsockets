@@ -6,7 +6,7 @@ The idea is to create a separate websocket server when an instance of django wsg
 
 
 #### Change-log:
-> v0.8
+> v0.8.1
 > > Added mixin support
 > > Added ability to run django request middleware on websocket requests through a mixin (see demo chatroom example)
 > > Now works on any WSGI application or desktop application.
