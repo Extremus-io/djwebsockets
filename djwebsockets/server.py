@@ -2,6 +2,7 @@ import asyncio
 import websockets
 import os
 import inspect
+from django.conf import settings
 from threading import Thread
 from .websocket import WebSocket
 import re
@@ -30,7 +31,12 @@ class WebSocketServer:
 
     @staticmethod
     def get_namespace(path):
-        for regex, ns in WebSocketServer.NameSpaces:
+        if settings.WS_BASE_URI is not None:
+            BASE_URI=settings.WS_BASE_URI
+        else:
+            BASE_URI="/"
+        for uri, ns in WebSocketServer.NameSpaces:
+            regex = BASE_URI+uri
             reg = re.compile(regex)
             if reg.search(path) is not None:
                 cls = WebSocketServer.NameSpaces.get(regex, None)
