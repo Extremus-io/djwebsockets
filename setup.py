@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='djwebsockets',
-    version='0.8.4',
+    version='0.8.7',
     packages=['djwebsockets', 'djwebsockets.demo', 'djwebsockets.mixins'],
     keywords=['django', 'websockets', 'websocket', 'wsgi', 'simple websocket', 'simple', 'realtime', 'realtime server', 'realtime django'],
     url='https://github.com/extremus-io/djwebsockets',

@@ -34,10 +34,10 @@ class WebSocketServer:
         if settings.WS_BASE_URI is not None:
             BASE_URI=settings.WS_BASE_URI
         else:
-            BASE_URI="/"
-        for uri, ns in WebSocketServer.NameSpaces:
-            regex = BASE_URI+uri
-            reg = re.compile(regex)
+            BASE_URI=""
+        for regex in WebSocketServer.NameSpaces:
+            uri = BASE_URI+regex
+            reg = re.compile(uri)
             if reg.search(path) is not None:
                 cls = WebSocketServer.NameSpaces.get(regex, None)
             else:
