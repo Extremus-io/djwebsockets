@@ -32,11 +32,12 @@ The idea is to create a separate websocket server when an instance of django wsg
 * in any app's ```models.py``` add
 ```python
     from djwebsockets.decorator import Namespace
+    from djwebsockets.websocket import BaseWSClass
 ```
 * create a websocket handler with a namespace 
 ```python 
     @Namespace("/example/"):
-    class ExamplerHandler:
+    class ExamplerHandler(BaseWSClass):
        @classmethod
        on_connect(cls, websocket, path):
            ...
@@ -68,7 +69,7 @@ The idea is to create a separate websocket server when an instance of django wsg
 - To use this mixin in your app, extend your handler with this mixin
 ```python 
     @Namespace("/example/"):
-    class ExamplerHandler(ExampleMixin):
+    class ExamplerHandler(ExampleMixin, BaseWSClass):
        @classmethod
        on_connect(cls, websocket, path):
            ...
@@ -82,7 +83,7 @@ The idea is to create a separate websocket server when an instance of django wsg
 - You can also add multiple mixins. They will be executed from right to left.
 ```python 
     @Namespace("/example/"):
-    class ExamplerHandler(ExampleMixin1 ,ExampleMixin2, ExampleMixin3):
+    class ExamplerHandler(ExampleMixin1 ,ExampleMixin2, ExampleMixin3, BaseWSClass):
        @classmethod
        on_connect(cls, websocket, path):
            ...
