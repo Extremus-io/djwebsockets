@@ -1,5 +1,5 @@
 # djwebsockets
-The library adds websocket support to django (now any wsgi app). It gives event driven websocket control for simple and straight forward programming.
+The library adds websocket support to django. It gives event driven websocket control for simple and straight forward programming.
 
 
 The idea is to create a separate websocket server when an instance of django wsgi application instance is produced. and kill it as soon as the instance dies.
@@ -7,6 +7,8 @@ The idea is to create a separate websocket server when an instance of django wsg
 
 #### Change-log:
 > V0.9
+> > for some reason, multiple namespaces were not working and so namespace was reverted from regex to exact matching
+> > you can now add base websocket url using `WEBSOCKET_BASE_URI` setting in django's `settings.py`.
 > > *Breaking Changes*
 > > all the websocket classes you want to use have to inherit `djwebsockets.websocket.BaseWSClass`.
 
@@ -52,7 +54,7 @@ The idea is to create a separate websocket server when an instance of django wsg
        on_close(cls, websocket):
            ...
 ```
-* `Namespace` takes a regex expression. if it matches with any websocket connecting, the methods in this class get called.
+* `Namespace` has to match the exact path of any websocket connecting.
 
 ### Mixins:
 - mixins essentially process all or some of the events before actual handler, allowing to tweak the data or block the event call.
