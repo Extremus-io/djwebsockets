@@ -6,6 +6,10 @@ The idea is to create a separate websocket server when an instance of django wsg
 
 
 #### Change-log:
+> V0.9
+> > *Breaking Changes*
+> > all the websocket classes you want to use have to inherit `djwebsockets.websocket.BaseWSClass`.
+
 > v0.8.1
 > > Added mixin support
 > > Added ability to run django request middleware on websocket requests through a mixin (see demo chatroom example)
