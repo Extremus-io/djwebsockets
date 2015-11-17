@@ -2,6 +2,7 @@
 setup.py
 djwebsockets\__init__.py
 djwebsockets\decorator.py
+djwebsockets\default_settings.py
 djwebsockets\server.py
 djwebsockets\websocket.py
 djwebsockets\wsgi.py

@@ -1,9 +1,10 @@
 from djwebsockets.decorator import Namespace
 from djwebsockets.mixins.wsgi import WSGIMixin
+from djwebsockets.websocket import BaseWSClass
 
 
 @Namespace("/chatroom")
-class ChatRoom(WSGIMixin):
+class ChatRoom(WSGIMixin, BaseWSClass):
     rooms = {}
 
     @classmethod

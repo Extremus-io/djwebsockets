@@ -4,15 +4,8 @@ from django.conf import settings
 
 
 def get_wsgi_application():
-    try:
-        host = settings.WEBSOCKET_HOST
-    except Exception as exec:
-        host = "localhost"
-    try:
-        port = settings.WEBSOCKET_PORT
-    except Exception as exec:
-        port = "8001"
-
+    host = settings.WEBSOCKET_HOST
+    port = settings.WEBSOCKET_PORT
     wsgihandler = django_wsgi()
     ws_server = server.WebSocketServer(host, port)
     ws_server.run_server()
