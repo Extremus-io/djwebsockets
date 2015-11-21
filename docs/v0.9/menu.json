@@ -13,15 +13,5 @@
     "title": "Mixins",
     "href": "/v0.9/mixins",
     "icon": "autorenew"
-  },
-  {
-    "title": "Outside Django",
-    "href": "/v0.9/outside",
-    "icon": "assessment"
-  },
-  {
-    "title": "More Information",
-    "href": "/v0.9/other",
-    "icon": "card-membership"
   }
 ]

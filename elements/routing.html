@@ -18,6 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     page(window.location.pathname+'/',function() {
       window.location.hash='#!/';
+      page.show(app.versions[0].href);
     });
     page('/',function() {
       window.location.hash='#!/';
@@ -35,6 +36,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     page({
       hashbang: true
     });
-//    page();
+
+    /*jshint ignore:start*/
+    app.versionsMenuUpdated = function () {
+      if (app.version == null && app.versions != null) {
+        app.version = app.versions[0].version;
+        page(app.versions[0].href);
+      }
+    };
+    /*jshint ignore:end*/
   });
 </script>
