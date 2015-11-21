@@ -30,14 +30,14 @@ class WebSocketServer:
 
     @staticmethod
     def AddNameSpace(namespace, clsitem):
-        BASE_URI=settings.WEBSOCKET_BASE_URI
-        path = BASE_URI+namespace
-        WebSocketServer.NameSpaces.update({path:clsitem})
+        BASE_URI = settings.WEBSOCKET_BASE_URI
+        path = BASE_URI + namespace
+        WebSocketServer.NameSpaces.update({path: clsitem})
 
     @staticmethod
     def get_namespace(path):
-        BASE_URI=settings.WEBSOCKET_BASE_URI
-        return WebSocketServer.NameSpaces.get(path,None)
+        BASE_URI = settings.WEBSOCKET_BASE_URI
+        return WebSocketServer.NameSpaces.get(path, None)
         # for regex in WebSocketServer.NameSpaces:
         #     uri = BASE_URI+regex
         #     reg = re.compile(uri)
@@ -62,7 +62,7 @@ class WebSocketServer:
 
         callbacks = self.get_callbacks(cls)
         close_handler = asyncio.Future()
-        send_handler = asyncio.Future()
+        send_handler = asyncio.Queue()
         ws = WebSocket(websocket, close_handler, send_handler)
         self.websockets[id(websocket)] = ws
         callbacks["_on_connect"](ws, path)
@@ -71,15 +71,11 @@ class WebSocketServer:
         while True:
             receivetask = asyncio.async(websocket.recv())
             connection_closed = websocket.connection_closed
-            done, pending = yield from asyncio.wait([receivetask, close_handler, send_handler, connection_closed], return_when=asyncio.FIRST_COMPLETED)
-            if send_handler in done:
-                try:
-                    yield from websocket.send(send_handler.result())
-                except KeyError:
-                    pass
-                send_handler = asyncio.Future()
-                ws.send_handler = send_handler
-
+            send_task = asyncio.async(send_handler.get())
+            done, pending = yield from asyncio.wait([receivetask, close_handler, send_task, connection_closed],
+                                                    return_when=asyncio.FIRST_COMPLETED)
+            if send_task in done:
+                yield from websocket.send(send_task.result())
             if receivetask in done:
                 try:
                     callbacks["_on_message"](ws, receivetask.result())
@@ -92,6 +88,12 @@ class WebSocketServer:
                     callbacks["_on_close"](ws)
                 except KeyError:
                     pass
+                while True:
+                    try:
+                        msg = send_handler.get_nowait()
+                        yield from websocket.send(msg)
+                    except asyncio.QueueEmpty:
+                        break
                 break
             if connection_closed in done:
                 try:
@@ -112,7 +114,7 @@ class WebSocketServer:
         if self.loop.is_running():
             print("server already running")
             return
-        print("Starting websocket server at ws://{}".format(self.host+":"+str(self.port)))
+        print("Starting websocket server at ws://{}".format(self.host + ":" + str(self.port)))
         thread = Thread(target=self._run_server, args=(self.loop,))
         thread.start()
 

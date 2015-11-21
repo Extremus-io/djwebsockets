@@ -1,4 +1,5 @@
 from djwebsockets.mixins import BaseWSMixin, MixinFail
+import asyncio
 
 class WebSocket:
     loop = None
@@ -14,8 +15,7 @@ class WebSocket:
         self.loop.call_soon_threadsafe(self._send, Message)
 
     def _send(self, Message):
-        if not self.send_handler.done():
-            self.send_handler.set_result(Message)
+        self.send_handler.put_nowait(Message)
 
     def close(self):
         self.closed = True

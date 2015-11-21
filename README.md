@@ -6,6 +6,9 @@ The idea is to create a separate websocket server when an instance of django wsg
 
 
 #### Change-log:
+> v0.9.3
+> > Replaced the sending mechanism with queues and fixed some bugs where socket closes before sending all pending messages.
+
 > V0.9
 > > for some reason, multiple namespaces were not working and so namespace was reverted from regex to exact matching
 > > you can now add base websocket url using `WEBSOCKET_BASE_URI` setting in django's `settings.py`.
