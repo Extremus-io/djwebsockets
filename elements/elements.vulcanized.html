@@ -14565,6 +14565,7 @@ module.exports = Array.isArray || function (arr) {
     });
     page('/',function() {
       window.location.hash='#!/';
+      page.show(app.versions[0].href);
     });
     page('/:version/:route', function (data) {
       app.version = data.params.version;
