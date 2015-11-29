@@ -74,6 +74,10 @@ class WebSocketServer:
             send_task = asyncio.async(send_handler.get())
             done, pending = yield from asyncio.wait([receivetask, close_handler, send_task, connection_closed],
                                                     return_when=asyncio.FIRST_COMPLETED)
+            if send_task in pending:
+                send_task.cancel()
+            if receivetask in pending:
+                receivetask.cancel()
             if send_task in done:
                 yield from websocket.send(send_task.result())
             if receivetask in done:
@@ -81,8 +85,6 @@ class WebSocketServer:
                     callbacks["_on_message"](ws, receivetask.result())
                 except KeyError:
                     pass
-            else:
-                receivetask.cancel()
             if close_handler in done:
                 try:
                     callbacks["_on_close"](ws)
@@ -94,6 +96,7 @@ class WebSocketServer:
                         yield from websocket.send(msg)
                     except asyncio.QueueEmpty:
                         break
+                WebSocketServer.websockets.pop(ws.id)
                 break
             if connection_closed in done:
                 try:
