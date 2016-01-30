@@ -27,6 +27,7 @@ class WSGIMixin(BaseWSMixin):
         }
         try:
             socket.COOKIES = lambda: None
+            socket.COOKIES = {}
             socket.COOKIES = http.parse_cookie(environ.get("HTTP_COOKIE"))
             socket.user = lambda: None
             socket.user = None

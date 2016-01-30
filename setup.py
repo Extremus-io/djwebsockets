@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='djwebsockets',
-    version='0.9.4',
+    version='0.9.6',
     packages=['djwebsockets', 'djwebsockets.demo', 'djwebsockets.mixins'],
     keywords=['django', 'websockets', 'websocket', 'wsgi', 'simple websocket', 'simple', 'realtime', 'realtime server', 'realtime django'],
     url='https://github.com/extremus-io/djwebsockets',
@@ -13,6 +13,8 @@ setup(
     description='Simple Evented websocket interface for wsgi applications',
     long_description='''
     This is a part of a project extremus-io.
+    ##### update v.9.4
+        - fixed a bug which deleted msgs sent from on_message call back
     ##### update V0.8.1:
         - minor bug fix
     ##### update V0.8:
