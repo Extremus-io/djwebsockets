@@ -45,16 +45,16 @@ The idea is to create a separate websocket server when an instance of django wsg
 ```
 * create a websocket handler with a namespace 
 ```python 
-    @Namespace("/example/"):
+    @Namespace("/example/")
     class ExamplerHandler(BaseWSClass):
        @classmethod
-       on_connect(cls, websocket, path):
+       def on_connect(cls, websocket, path):
            ...
        @classmethod
-       on_message(cls, websocket, message):
+       def on_message(cls, websocket, message):
            ...
        @classmethod
-       on_close(cls, websocket):
+       def on_close(cls, websocket):
            ...
 ```
 * `Namespace` has to match the exact path of any websocket connecting.
@@ -65,42 +65,42 @@ The idea is to create a separate websocket server when an instance of django wsg
 ```python
     class ExampleMixin(BaseMixin):
         @classmethod
-        on_connect(cls, websocket, path):
+        def on_connect(cls, websocket, path):
             ...
         @classmethod
-         on_message(cls, websocket, message):
+        def on_message(cls, websocket, message):
             ...
         @classmethod
-        on_close(cls, websocket):
+        def on_close(cls, websocket):
             ...
 ```
 - The mixin has to extend `djwebsockets.mixins.BaseMixin` class
 - To use this mixin in your app, extend your handler with this mixin
 ```python 
-    @Namespace("/example/"):
+    @Namespace("/example/")
     class ExamplerHandler(ExampleMixin, BaseWSClass):
        @classmethod
-       on_connect(cls, websocket, path):
+       def on_connect(cls, websocket, path):
            ...
        @classmethod
-       on_message(cls, websocket, message):
+       def on_message(cls, websocket, message):
            ...
        @classmethod
-       on_close(cls, websocket):
+       def on_close(cls, websocket):
            ...
 ```
 - You can also add multiple mixins. They will be executed from right to left.
 ```python 
-    @Namespace("/example/"):
+    @Namespace("/example/")
     class ExamplerHandler(ExampleMixin1 ,ExampleMixin2, ExampleMixin3, BaseWSClass):
        @classmethod
-       on_connect(cls, websocket, path):
+       def on_connect(cls, websocket, path):
            ...
        @classmethod
-       on_message(cls, websocket, message):
+       def on_message(cls, websocket, message):
            ...
        @classmethod
-       on_close(cls, websocket):
+       def on_close(cls, websocket):
            ...
 ```
 
