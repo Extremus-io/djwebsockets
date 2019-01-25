@@ -85,7 +85,7 @@ class WebSocketServer:
                     callbacks["_on_message"](ws, receivetask.result())
                 except KeyError:
                     pass
-            if close_handler in done:
+            if close_handler in done or connection_closed in done:
                 try:
                     callbacks["_on_close"](ws)
                 except KeyError:
@@ -97,12 +97,6 @@ class WebSocketServer:
                     except asyncio.QueueEmpty:
                         break
                 WebSocketServer.websockets.pop(ws.id)
-                break
-            if connection_closed in done:
-                try:
-                    callbacks["_on_close"](ws)
-                except KeyError:
-                    pass
                 break
 
     def _run_server(self, loop):
